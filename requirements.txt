@@ -1,0 +1,4 @@
+pandas==2.2.3
+Wikipedia-API==0.7.1
+wptools==0.4.17
+jupyter==1.1.1
