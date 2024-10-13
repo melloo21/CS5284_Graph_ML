@@ -6,8 +6,7 @@ def get_search_results_from_movie_title(movie_title):
     URL = "https://en.wikipedia.org/w/api.php"
 
     # add 'film' at the end to make results more relevant
-    SEARCHPAGE = movie_title + 'film'
-
+    SEARCHPAGE = movie_title + ' film'
     PARAMS = {
         "action": "query",
         "format": "json",
@@ -20,23 +19,25 @@ def get_search_results_from_movie_title(movie_title):
 
     return DATA
 
-def get_wiki_title_from_search_results(data, keywords: str):
-    if data['searchinfo']['totalhits'] == 0:
+def get_wiki_title_from_search_results(data, keywords: str=None):
+    if data['query']['searchinfo']['totalhits'] == 0:
         return None
     if keywords:
         data_filtered = find_word_in_snippets(data, keywords)
-        return data_filtered['search'][0]['title']
+        return data_filtered['query']['search']
     else:
-        return data['search'][0]['title']
+        return data['query']['search']
 
 
 # Function to check for the word "film" in the snippets
 def find_word_in_snippets(data, word):
-    results = []
-    for entry in data['search']:
+    results = dict()
+    results['query'] = dict()
+    results['query']['search'] = []
+    for entry in data['query']['search']:
         snippet = entry['snippet']
         if word in snippet:
-            results.append({'title': entry['title'], 'snippet': snippet})
+            results['query']['search'].append(entry)
     
     return results
 

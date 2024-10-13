@@ -3,6 +3,7 @@ import wptools
 import wikipediaapi
 import sys
 import os
+from utils.scrape_utils import *
 
 # Suppress output by redirecting sys.stdout temporarily
 # Suppress both stdout and stderr by redirecting them to os.devnull
