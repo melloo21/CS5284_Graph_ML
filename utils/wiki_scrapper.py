@@ -3,6 +3,7 @@ import wptools
 import wikipediaapi
 import sys
 import os
+from utils.scrape_utils import *
 
 # Suppress output by redirecting sys.stdout temporarily
 # Suppress both stdout and stderr by redirecting them to os.devnull
@@ -44,11 +45,23 @@ class GenericScrapper:
         except Exception as e:
             print(f" ERROR [get_page_sections] :: {e}")
 
-    def get_section_dict(self, page_title:str):
+    def get_section_dict(self, page_title: str) -> dict:
+        """
+        Retrieves a dictionary of sections and their corresponding text from a Wikipedia page.
+        Usage ::  scrapper.get_section_dict('King Kong (2005)')
+        Parameters:
+        page_title (str): The title of the Wikipedia page to retrieve sections from.
+
+        Returns:
+        dict: A dictionary where keys are section titles and values are the corresponding text.
+              If an error occurs during the retrieval process, the function prints an error message
+              and returns an empty dictionary.
+        """
         try:    
             return {elem.title: elem.text for elem in self.wiki_wiki.page(page_title).sections}
         except Exception as e:
             print(f" ERROR [get_section_dict] :: {e}")
+            return {}
 
     def get_page_summary(self, page_title:str):
         try:
